@@ -1,0 +1,32 @@
+{
+  "name": "playwright-pom",
+  "version": "1.0.0",
+  "description": "Playwright + TypeScript Page Object Model framework for practicetestautomation.com",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:chromium": "playwright test --project=chromium",
+    "test:firefox": "playwright test --project=firefox",
+    "test:webkit": "playwright test --project=webkit",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:ui": "playwright test --ui",
+    "test:smoke": "playwright test --grep @smoke",
+    "report": "playwright show-report reports/html",
+    "test:report": "playwright test; playwright show-report reports/html",
+    "clean:reports": "rm -rf reports",
+    "codegen": "playwright codegen https://practicetestautomation.com/practice-test-login/"
+  },
+  "keywords": [
+    "playwright",
+    "typescript",
+    "page-object-model",
+    "e2e"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^25.6.0"
+  }
+}
