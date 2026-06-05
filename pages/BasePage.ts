@@ -1,47 +1,26 @@
 import { Page, Locator, expect } from '@playwright/test';
 
-/**
- * BasePage encapsulates the common operations that every Page Object
- * shares (navigation, waits, URL/title assertions). Concrete page
- * objects should extend this class instead of duplicating logic.
- */
-export abstract class BasePage {
-  protected readonly page: Page;
-
-  /**
-   * Path relative to the configured `baseURL`. Subclasses MUST override
-   * this so `goto()` works without arguments.
-   */
-  protected abstract readonly path: string;
+export class BasePage {
+  protected  page: Page;
 
   constructor(page: Page) {
     this.page = page;
   }
 
-  /**
-   * Navigate to the page using its configured `path`. Waits for the DOM
-   * to be loaded which gives stable starting state for tests.
-   */
+ 
   async goto(): Promise<void> {
-    await this.page.goto(this.path, { waitUntil: 'domcontentloaded' });
+    await this.page.goto('/practice-test-login/', { waitUntil: 'domcontentloaded' });
   }
 
-  /**
-   * Returns the current URL of the page under test.
-   */
+ 
   getUrl(): string {
     return this.page.url();
   }
 
-  /**
-   * Assert that the current URL contains the expected fragment.
-   */
-  async expectUrlToContain(expected: string | RegExp): Promise<void> {
-    await expect(this.page).toHaveURL(
-      typeof expected === 'string' ? new RegExp(expected) : expected,
-    );
+  async expectUrlToContain(expected: string ): Promise<void> {
+    await expect(this.page).toHaveURL(expected);
+    
   }
-
   /**
    * Assert the page title matches the supplied value (string or RegExp).
    */

@@ -1,29 +1,13 @@
 import { Locator, Page, expect } from '@playwright/test';
 import { BasePage } from './BasePage';
 
-/**
- * Credentials accepted by the login form.
- */
-export interface LoginCredentials {
-  username: string;
-  password: string;
-}
 
-/**
- * Page Object for the Practice Test Automation login page:
- * https://practicetestautomation.com/practice-test-login/
- *
- * Exposes only behaviour that has semantic meaning for tests
- * (`login`, `expectErrorMessage`, ...). All selectors are kept
- * private so the spec layer is decoupled from the DOM.
- */
 export class LoginPage extends BasePage {
-  protected readonly path = '/practice-test-login/';
 
-  private readonly usernameInput: Locator;
-  private readonly passwordInput: Locator;
-  private readonly submitButton: Locator;
-  private readonly errorMessage: Locator;
+  private  usernameInput: Locator;
+  private  passwordInput: Locator;
+  private  submitButton: Locator;
+  private  errorMessage: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -37,17 +21,17 @@ export class LoginPage extends BasePage {
   /**
    * Fill in credentials and submit the form.
    */
-  async login(credentials: LoginCredentials): Promise<void> {
+  async login(username: string, password: string): Promise<void> {
     await this.waitForVisible(this.usernameInput);
-    await this.usernameInput.fill(credentials.username);
-    await this.passwordInput.fill(credentials.password);
+    await this.usernameInput.fill(username);
+    await this.passwordInput.fill(password);
     await this.submitButton.click();
   }
 
   /**
    * Assert that the error banner is shown with the expected text.
    */
-  async expectErrorMessage(expected: string | RegExp): Promise<void> {
+  async expectErrorMessage(expected: string): Promise<void> {
     await expect(this.errorMessage).toBeVisible();
     await expect(this.errorMessage).toHaveText(expected);
   }

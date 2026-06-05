@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "playwright test",
-    "test:chromium": "playwright test --project=chromium",
+    "test:chromium": "ENV=qa playwright test --ui --project=chromium",
+    "test:qa-report": "ENV=qa playwright test --project=chromium && playwright show-report reports/html",
     "test:firefox": "playwright test --project=firefox",
     "test:webkit": "playwright test --project=webkit",
     "test:headed": "playwright test --headed",

@@ -1,9 +1,23 @@
 import { defineConfig, devices } from '@playwright/test';
-
 /**
- * Playwright configuration.
- * See https://playwright.dev/docs/test-configuration
+ * Pick the env via `ENV=qa=staging npx playwright test`.
+ * Defaults to `qa` when unset.
  */
+const envConfig: Record<string, { baseURL: string }> = {
+  qa: {
+    baseURL: 'https://practicetestautomation.com',
+  },
+  staging: {
+    baseURL: '',
+  },
+  production: {
+    baseURL: '',
+  },
+};
+
+const ENV = process.env.ENV || 'qa'
+
+
 export default defineConfig({
   testDir: './tests',
   /* Maximum time one test can run for. */
@@ -30,7 +44,7 @@ export default defineConfig({
 
   /* Shared settings for all projects. */
   use: {
-    baseURL: 'https://practicetestautomation.com',
+    baseURL: envConfig[ENV].baseURL,
     actionTimeout: 15 * 1000,
     navigationTimeout: 30 * 1000,
     headless: true,

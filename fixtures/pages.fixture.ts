@@ -1,26 +1,31 @@
 import { test as base } from '@playwright/test';
-import { LoginPage, LoggedInPage } from '../pages';
+import { LoginPage } from '../pages';
 
-/**
- * Custom fixtures that inject page objects into every test. This keeps
- * specs focused on intent ("given a login page, when I login, then...")
- * and removes per-test boilerplate to construct page objects.
- *
- * Usage:
- *   import { test, expect } from '../fixtures/pages.fixture';
- *   test('...', async ({ loginPage }) => { ... });
- */
-type PageObjects = {
-  loginPage: LoginPage;
-  loggedInPage: LoggedInPage;
+type LoginCredentials = {
+  credentials: { username: string; password: string };
 };
 
-export const test = base.extend<PageObjects>({
+type PageObjects = {
+  loginPage: LoginPage;
+ 
+};
+
+const credentials = base.extend<LoginCredentials>({
+  credentials: async ({}, use) => {
+    const allEnv: Record<string, { username: string; password: string }> = {
+      qa: { username: 'student', password: 'Password123' },
+      staging: { username: 'student', password: 'Password123' },
+      production: { username: 'student', password: 'Password123' }
+    }
+    const env = process.env.ENV || 'qa';
+    
+    await use(allEnv[env] || allEnv.qa);
+  },
+});
+
+export const test = credentials.extend<PageObjects>({
   loginPage: async ({ page }, use) => {
     await use(new LoginPage(page));
-  },
-  loggedInPage: async ({ page }, use) => {
-    await use(new LoggedInPage(page));
   },
 });
 
