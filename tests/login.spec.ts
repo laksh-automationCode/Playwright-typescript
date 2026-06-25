@@ -1,9 +1,11 @@
 import { test, expect } from '../fixtures/pages.fixture';
+import { LOGIN_PATH } from '../pages/BasePage';
 
 test.describe('Practice Test Automation - Login', () => {
-  test.beforeEach(async ({ loginPage, credentials }) => {
+  test.beforeEach(async ({ page, loginPage}) => {
     await loginPage.goto();
-
+    await page.waitForURL(LOGIN_PATH);
+ 
   });
 
   test('@smoke Verify successful login', async ({
@@ -11,7 +13,7 @@ test.describe('Practice Test Automation - Login', () => {
     credentials,
   }) => {
     await loginPage.login(credentials.username, credentials.password);
-    expect(loginPage.getUrl()).toContain('practicetestautomation.com/logged-in-successfully/');
+    await loginPage.assertLoggedInUrl();
   });
 
   test('Verify page title', async ( {loginPage }) => {  

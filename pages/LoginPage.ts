@@ -1,5 +1,5 @@
 import { Locator, Page, expect } from '@playwright/test';
-import { BasePage } from './BasePage';
+import { BasePage, LOGIN_PATH } from './BasePage';
 
 
 export class LoginPage extends BasePage {
@@ -8,7 +8,6 @@ export class LoginPage extends BasePage {
   private  passwordInput: Locator;
   private  submitButton: Locator;
   private  errorMessage: Locator;
-
   constructor(page: Page) {
     super(page);
     this.usernameInput = page.locator('#username');
@@ -26,6 +25,10 @@ export class LoginPage extends BasePage {
     await this.usernameInput.fill(username);
     await this.passwordInput.fill(password);
     await this.submitButton.click();
+
+    await this.page.context().storageState({
+      path: 'playwright/.auth/user.json',
+    });
   }
 
   /**
@@ -45,12 +48,20 @@ export class LoginPage extends BasePage {
     await expect(this.submitButton).toBeVisible();
   }
 
+  async assertLoggedInUrl(): Promise<void> {
+    await expect(this.page).toHaveURL('/logged-in-successfully/');
+  }
   async assertPageTitle(): Promise<void> {
     const title = await this.page.title();
     await expect(this.page).toHaveTitle(title);
   }
 
   async assertPageUrl(): Promise<void> {
-    await expect(this.page).toHaveURL('https://practicetestautomation.com/practice-test-login/');
+    await expect(this.page).toHaveURL(LOGIN_PATH);
+  }
+
+
+  async selectMainMenuOption(option: string): Promise<void> {
+    this.page.getByRole('link', { name: option });
   }
 }

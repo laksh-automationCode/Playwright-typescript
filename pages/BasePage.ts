@@ -1,5 +1,7 @@
 import { Page, Locator, expect } from '@playwright/test';
 
+export const LOGIN_PATH = '/practice-test-login/';
+
 export class BasePage {
   protected  page: Page;
 
@@ -7,9 +9,10 @@ export class BasePage {
     this.page = page;
   }
 
+  
  
   async goto(): Promise<void> {
-    await this.page.goto('/practice-test-login/', { waitUntil: 'domcontentloaded' });
+    await this.page.goto(LOGIN_PATH, { waitUntil: 'domcontentloaded' });
   }
 
  
