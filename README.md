@@ -9,11 +9,10 @@ End-to-end test framework using **Playwright + TypeScript** following the
 ```
 .
 ├── fixtures/
-│   └── pages.fixture.ts     # Custom fixtures injecting page objects
+│   └── pages.fixture.ts     # Custom fixtures injecting page objects and cresdentials
 ├── pages/
 │   ├── BasePage.ts          # Abstract base with shared behaviour
 │   ├── LoginPage.ts         # Page object for the login screen
-│   ├── LoggedInPage.ts      # Page object for the post-login screen
 │   └── index.ts             # Barrel re-exports
 ├── test-data/
 │   └── users.ts             # Centralised test data (credentials)
@@ -52,11 +51,11 @@ npm run report              # open the last HTML report
 
 ## Test cases
 
-| ID    | Description                                  | Credentials                                 |
-| ----- | -------------------------------------------- | ------------------------------------------- |
-| TC-01 | Positive login redirects to success page     | `student` / `Password123`                   |
-| TC-02 | Negative login - invalid username error      | `incorrectUser` / `Password123`             |
-| TC-03 | Negative login - invalid password error      | `student` / `incorrectPassword`             |
+| ID    | Description                                  | 
+| ----- | -------------------------------------------- |
+| TC-01 | Positive login redirects to success page     | 
+| TC-02 | Verify title after login                     |              
+
 
 ## Conventions
 
